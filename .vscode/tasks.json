@@ -4,11 +4,28 @@
         {
             "label": "Build and Launch",
             "type": "shell",
-            "command": "mvn compile &&  && imqbrokerd -tty",
+            "command": "cd jmsproject && mvn compile && screen -dmS imq sh -c imqbrokerd -tty; exec bash ",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": "$mavenCompile"
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": {
+                "owner": "maven",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(\\[ERROR\\]|\\[FATAL\\]) (.+):(\\d+):\\s+(.+)$",
+                    "file": 2,
+                    "line": 3,
+                    "message": 4
+                }
+            }
         },
         {
             "label": "Launch OpenMQ Server",

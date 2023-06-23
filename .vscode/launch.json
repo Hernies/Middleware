@@ -11,15 +11,10 @@
             "mainClass": "com.jmsproject.Delegacion",
             "projectName": "distrito",
             "env": {
-                "MQ_HOME": "/path/to/openmq-<version>",
-                "PATH": "${env:PATH}:${env:MQ_HOME}/bin"
-            }
+                "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
+            },
+            "preLaunchTask": "Build and Launch"
         },
-        {
-            "type": "java",
-            "name": "Oficinas",
-            "request": "launch",
-            "mainClass": "",
-        }
+
     ]
 }
