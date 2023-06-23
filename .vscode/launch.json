@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Delegacion",
+            "request": "launch",
+            "mainClass": "com.jmsproject.Delegacion",
+            "projectName": "distrito",
+            "env": {
+                "MQ_HOME": "/path/to/openmq-<version>",
+                "PATH": "${env:PATH}:${env:MQ_HOME}/bin"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Oficinas",
+            "request": "launch",
+            "mainClass": "",
+        }
+    ]
+}

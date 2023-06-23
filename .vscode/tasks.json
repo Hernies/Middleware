@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build and Launch",
+            "type": "shell",
+            "command": "mvn compile &&  && imqbrokerd -tty",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$mavenCompile"
+        },
+        {
+            "label": "Launch OpenMQ Server",
+            "type": "shell",
+            "command": "imqbrokerd -tty",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
+    
