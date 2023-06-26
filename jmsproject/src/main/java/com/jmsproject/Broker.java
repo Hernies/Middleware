@@ -25,7 +25,7 @@ public class Broker {
          ExecutorService exec = Executors.newFixedThreadPool(delegaciones.length);
 	        for (int i=0; i < delegaciones.length; i++){
 	            String region = nombres[i];
-	            delegaciones[i] = new Delegacion(region, i+1, mySess, myConn); //FIXME 
+	            delegaciones[i] = new Delegacion(region, mySess, myConn); 
 	            exec.execute(delegaciones[i]);
 	        }
 	        exec.shutdown();
@@ -38,7 +38,6 @@ public class Broker {
 			myConnFactory = new com.sun.messaging.ConnectionFactory();
 			Connection myConn = myConnFactory.createConnection();
 			mySess = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			// TODO LANZAR HILOS DELEGACION
             Broker broker = new Broker(mySess, myConn);
             broker.crearDelegaciones();
 			mySess.close();

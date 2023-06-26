@@ -3,10 +3,9 @@ package com.jmsproject;
 import java.util.ArrayList;
 import javax.jms.*;
 
-public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS RUNNABLE
-    private static String[] delegaciones = { "Centro", "Norte", "Sur", "Este", "Oeste" };
-    private static Session session;
-    private static Connection connection;
+public class Delegacion implements Runnable{ 
+    private Session session;
+    private Connection connection;
     
     private ArrayList<Oficina> inmuebles;
     
@@ -40,7 +39,7 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
     class InmuebleListener implements MessageListener {
         public boolean done = false;
 
-        @Override
+        @SuppressWarnings("unchecked")
         public void onMessage(Message msg) {
             if (msg instanceof ObjectMessage) {
                 done = true;
@@ -106,35 +105,35 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
     }
 
     // Class constructor
-    public Delegacion(String delegacion, int i, Session mySess, Connection myConn) throws JMSException, InterruptedException { //FIXME
+    public Delegacion(String delegacion, Session mySess, Connection myConn) throws JMSException, InterruptedException { 
         this.delegacion = delegacion;
+        this.session = mySess;
+        this.connection = myConn;
         direccion = new ArrayList<DelegacionObj>();
         negocio = new ArrayList<DelegacionObj>();
         try {
             // Creamos un JMS topic
             myTopic = session.createTopic(delegacion);
-        // Creamos un consumidor JMS y los productores para el topic Dirección y Negocio TODO REVISAR
+        // Creamos un consumidor JMS y los productores para el topic Dirección y Negocio 
             consumer = session.createConsumer(myTopic);
-            // producerD = session.createProducer(session.createTopic("Direccion"));
-            // producerN = session.createProducer(session.createTopic("Negocio"));
+            producerD = session.createProducer(session.createTopic("Direccion"));
+            producerN = session.createProducer(session.createTopic("Negocio"));
             // Creamos un listener para el consumidor
             InmuebleListener myListener = new InmuebleListener();
             consumer.setMessageListener(myListener);
             connection.start();
             System.out.println("Esperando un mensaje...");
             while (!myListener.done) {
-            System.out.println("\t comprobando si hay mensajes para enviar ... "); //TODO GESTIONAR INMUEBLES PARA NEGOCIO Y DIRECCION
-                //si la cola de datos relevantes no esta vacia, enviar mensaje
-                // if(!direccion.isEmpty()){
-                //     System.out.println("Enviando mensaje a dirección ...");
-                //     enviarMensaje(direccion, "Direccion");
-                // }
-                // if(!negocio.isEmpty()){
-                //     System.out.println("Enviando mensaje a negocio ...");
-                //     enviarMensaje(negocio, "Negocio");
-                // }
-                // Thread.sleep(100);
-                // print mensajes recibidos
+                // si la cola de datos relevantes no esta vacia, enviar mensaje
+                if(!direccion.isEmpty()){
+                    System.out.println("Enviando mensaje a dirección ...");
+                    enviarMensaje(direccion, "Direccion");
+                }
+                if(!negocio.isEmpty()){
+                    System.out.println("Enviando mensaje a negocio ...");
+                    enviarMensaje(negocio, "Negocio");
+                }
+                Thread.sleep(100);
             }
             
             //enviar mensajes a equipos gestores
@@ -167,14 +166,38 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
 
     // implement run
     public void run() {
-        System.out.println("Hacer una cosa");
-        // try {
-        //      //TODO RELLENAR CON COMPORTAMIENTO 
-        //      
-             
-        // } 
-        // catch (JMSException | InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+            // Create a session and consumer
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            consumer = session.createConsumer(myTopic);
+
+            InmuebleListener myListener = new InmuebleListener();
+            consumer.setMessageListener(myListener);
+            connection.start();
+
+            System.out.println("Esperando un mensaje...");
+
+            while (!myListener.done) {
+                System.out.println("\t comprobando si hay mensajes para enviar ... ");
+                // If the relevant data queues are not empty, send messages
+                if (!direccion.isEmpty()) {
+                    System.out.println("Enviando mensaje a direccion ...");
+                    enviarMensaje(direccion, "Direccion");
+                }
+                if (!negocio.isEmpty()) {
+                    System.out.println("Enviando mensaje a negocio ...");
+                    enviarMensaje(negocio, "Negocio");
+                }
+                Thread.sleep(100);
+            }
+
+            // Close the connection and session
+            consumer.close();
+            session.close();
+            connection.close();
+
+        } catch (JMSException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

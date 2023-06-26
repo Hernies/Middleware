@@ -20,7 +20,6 @@ import javax.jms.Topic;
 public class Inmueble {
     private String fichero;
 	private String delegacion;
-	private int nOficina;
 	private Session sesion;
     private ArrayList<Oficina> oficinas = new ArrayList<Oficina>();
     public MessageProducer msgProducer;
@@ -59,7 +58,7 @@ public class Inmueble {
         msgProducer.send(ofiMessage);
     }
 
-    // TODO ARREGLAR PROCESAR
+    // TODO MEJORAR PROCESAR
     private void procesar() throws IOException { 
         BufferedReader rdr = new BufferedReader (new FileReader ("../src/Ficheros_Practica_1/"+fichero));
 		String strCurrentLine;
@@ -116,7 +115,7 @@ public class Inmueble {
             // MessageProducer producer = mySesion.createProducer();
             String relPath="src/main/Ficheros_Practica_1";
             Path filePath = Paths.get(System.getProperty("user.dir"), relPath);
-            String[] path = new File(filePath.toString()).list(); // TODO CHECK THIS PATH
+            String[] path = new File(filePath.toString()).list(); 
             for(String pathname : path){
                  new Inmueble(pathname, mySesion);
                  Thread.sleep(5000);
