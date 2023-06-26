@@ -4,17 +4,14 @@
         {
             "label": "Build and Launch",
             "type": "shell",
-            "command": "cd jmsproject && mvn compile && screen -dmS imq sh -c imqbrokerd -tty; exec bash ",
+            "command": "mvn compile && screen -dmS imq sh -c imqbrokerd -tty; exec", //lanza el programa en sí
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/jmsproject"
             },
             "presentation": {
                 "echo": true,
                 "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
+                "panel": "shared"
             },
             "problemMatcher": {
                 "owner": "maven",
