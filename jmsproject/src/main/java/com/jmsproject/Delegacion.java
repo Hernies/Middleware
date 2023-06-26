@@ -123,7 +123,7 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
             connection.start();
             System.out.println("Esperando un mensaje...");
             while (!myListener.done) {
-                System.out.println("\t comprobando si hay mensajes para enviar ... ");
+            System.out.println("\t comprobando si hay mensajes para enviar ... "); //TODO GESTIONAR INMUEBLES PARA NEGOCIO Y DIRECCION
                 //si la cola de datos relevantes no esta vacia, enviar mensaje
                 // if(!direccion.isEmpty()){
                 //     System.out.println("Enviando mensaje a dirección ...");
