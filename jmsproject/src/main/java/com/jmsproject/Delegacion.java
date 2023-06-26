@@ -106,19 +106,17 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
     }
 
     // Class constructor
-    public Delegacion(String delegacion) throws JMSException, InterruptedException { //FIXME
+    public Delegacion(String delegacion, int i, Session mySess, Connection myConn) throws JMSException, InterruptedException { //FIXME
         this.delegacion = delegacion;
         direccion = new ArrayList<DelegacionObj>();
         negocio = new ArrayList<DelegacionObj>();
         try {
             // Creamos un JMS topic
             myTopic = session.createTopic(delegacion);
-            myTopicN = session.createTopic("Negocio");
-            myTopicD = session.createTopic("Direccion");
-        // Creamos un consumidor y productor JMS TODO ESTO SOBRA, NO HACE FALTA CREAR MULTIPLES CONSUMIDORES
+        // Creamos un consumidor JMS y los productores para el topic Dirección y Negocio TODO REVISAR
             consumer = session.createConsumer(myTopic);
-            producerN = session.createProducer(myTopicN);
-            producerD = session.createProducer(myTopicD);
+            // producerD = session.createProducer(session.createTopic("Direccion"));
+            // producerN = session.createProducer(session.createTopic("Negocio"));
             // Creamos un listener para el consumidor
             InmuebleListener myListener = new InmuebleListener();
             consumer.setMessageListener(myListener);
@@ -127,15 +125,16 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
             while (!myListener.done) {
                 System.out.println("\t comprobando si hay mensajes para enviar ... ");
                 //si la cola de datos relevantes no esta vacia, enviar mensaje
-                if(!direccion.isEmpty()){
-                    System.out.println("Enviando mensaje a dirección ...");
-                    enviarMensaje(direccion, "Direccion");
-                }
-                if(!negocio.isEmpty()){
-                    System.out.println("Enviando mensaje a negocio ...");
-                    enviarMensaje(negocio, "Negocio");
-                }
-                Thread.sleep(100);
+                // if(!direccion.isEmpty()){
+                //     System.out.println("Enviando mensaje a dirección ...");
+                //     enviarMensaje(direccion, "Direccion");
+                // }
+                // if(!negocio.isEmpty()){
+                //     System.out.println("Enviando mensaje a negocio ...");
+                //     enviarMensaje(negocio, "Negocio");
+                // }
+                // Thread.sleep(100);
+                // print mensajes recibidos
             }
             
             //enviar mensajes a equipos gestores
@@ -168,9 +167,14 @@ public class Delegacion implements Runnable{ // TODO IMPLEMENT DELEGACIONES AS R
 
     // implement run
     public void run() {
-        try {
-             //TODO RELLENAR CON COMPORTAMIENTO EXTRA
-        } catch (JMSException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Hacer una cosa");
+        // try {
+        //      //TODO RELLENAR CON COMPORTAMIENTO 
+        //      
+             
+        // } 
+        // catch (JMSException | InterruptedException e) {
+        //     e.printStackTrace();
+        // }
     }
+}

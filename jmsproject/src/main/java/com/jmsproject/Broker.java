@@ -1,6 +1,5 @@
 package com.jmsproject;
 
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +21,7 @@ public class Broker {
         delegaciones = new Delegacion[5];
     }
     
-    public void crearDelegaciones(){
+    public void crearDelegaciones() throws JMSException, InterruptedException{
          ExecutorService exec = Executors.newFixedThreadPool(delegaciones.length);
 	        for (int i=0; i < delegaciones.length; i++){
 	            String region = nombres[i];
@@ -32,7 +31,7 @@ public class Broker {
 	        exec.shutdown();
     }
    
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ConnectionFactory myConnFactory;
         Session mySess;
 		try {
@@ -40,6 +39,8 @@ public class Broker {
 			Connection myConn = myConnFactory.createConnection();
 			mySess = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			// TODO LANZAR HILOS DELEGACION
+            Broker broker = new Broker(mySess, myConn);
+            broker.crearDelegaciones();
 			mySess.close();
 			myConn.close();
 		} catch (JMSException e) {
