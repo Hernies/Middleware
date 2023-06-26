@@ -112,7 +112,7 @@ public class Inmueble {
             Connection myConn = myConnFactory.createConnection();
             Session mySesion = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
             // MessageProducer producer = mySesion.createProducer();
-            String[] path = new File("../src/Ficheros_Practica_1").list();
+            String[] path = new File("../src/Ficheros_Practica_1").list(); // TODO CHECK THIS PATH
             for(String pathname : path){
                  new Inmueble(pathname, mySesion);
                  Thread.sleep(5000);
