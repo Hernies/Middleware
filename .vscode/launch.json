@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Delegacion",
             "request": "launch",
-            "mainClass": "com.jmsproject.Delegacion",
+            "mainClass": "com.jmsproject.Delegaciones",
             "projectName": "distrito",
             "env": {
                 "IMQ_HOME": "${workspaceFolder}/lib/bin",
@@ -27,9 +27,9 @@
         },
         {
             "type": "java",
-            "name": "Oficina",
+            "name": "Inmueble",
             "request": "launch",
-            "mainClass": "com.jmsproject.Oficina",
+            "mainClass": "com.jmsproject.Inmueble",
             "projectName": "distrito",
             "env": {
                 "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",

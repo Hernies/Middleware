@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.jms.Connection;
@@ -112,7 +114,9 @@ public class Inmueble {
             Connection myConn = myConnFactory.createConnection();
             Session mySesion = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
             // MessageProducer producer = mySesion.createProducer();
-            String[] path = new File("../src/Ficheros_Practica_1").list(); // TODO CHECK THIS PATH
+            String relPath="src/main/Ficheros_Practica_1";
+            Path filePath = Paths.get(System.getProperty("user.dir"), relPath);
+            String[] path = new File(filePath.toString()).list(); // TODO CHECK THIS PATH
             for(String pathname : path){
                  new Inmueble(pathname, mySesion);
                  Thread.sleep(5000);

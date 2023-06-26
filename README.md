@@ -1,17 +1,18 @@
 # Middleware
 
-### Para debuggear en vscode
-El setup es el siguiente: corres un debug de Delegacion priemro, luego en , este compila y muestra si hay errores, para abrir la terminal de el imq se crea una ventana a parte, esta puede abrirse corriendo ``screen -r imq``` en una terminal (así si hosteas una sesión de liveshare todo el mundo puede participar en el debug observando la traza del broker)
+## Para debuggear en vscode
 
-#### Para usar en linux nativo
-Debe instalarse:
-- Maven 
+- Instala Maven antes de comenzar con el debuggeo
 ```bash
     sudo apt install maven -Y
 ```
-- Screen 
-```bash
-    sudo apt install screen -Y
-```
-
-
+El setup es el siguiente:  
+0. Hacer un export ```IMQ_HOME='<path a la raíz del proyecto>/lib/bin'```
+1. Primero nos aseguramos de que el broker funciona correctamente y tenemos el usuario funcionando. 
+    Para ello debemos garantizar permisos de acceso a ```lib/var/instances/imqbroker/etc/passwd``` para poder crear usuarios a través del comando:
+    ```bash
+        sudo ./imqusermgr add -u guest -p guest
+    ```
+    (sudo es sólo una precaución)
+2. Lo siguiente será inicializar el broker, ```./imqbrokerd``` (como vamos a debuggear usar -tty es redundante, pero podemos usarlo si queremos)
+3. Y a debuggear! (recuerda los breakpoints antes de los try/catch o saltará todo el código)
