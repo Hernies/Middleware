@@ -8,7 +8,7 @@ public class EquipoGestion {
 	private Topic myTopic;
 	private MessageConsumer myConsumer;
 	private static String[] equiposGestores={"Negocio","Direccion"};
-	private static ArrayList<Delegacion> listaRecibidos;
+	private static ArrayList<DelegacionObj> listaRecibidos;
 	// Los equipos gestores con consumidores de mensajes
 	// implementar DelegacionListener
 	// printear por pantalla
@@ -22,8 +22,8 @@ public class EquipoGestion {
 				recibido = true;
 				ObjectMessage objMsg = (ObjectMessage) msg;
 				try {
-					listaRecibidos = (ArrayList<Delegacion>) objMsg.getObject();
-					for (Delegacion del : listaRecibidos){
+					listaRecibidos = (ArrayList<DelegacionObj>) objMsg.getObject();
+					for (DelegacionObj del : listaRecibidos){
 						System.out.println("\tLeyendo el mensaje\n\t"
 							+ del.toString()); //FIXME debería printear nada más recibe el mensaje
 					}
@@ -37,7 +37,7 @@ public class EquipoGestion {
 
 	
 	public EquipoGestion (String equipoGestor){
-		listaRecibidos = new ArrayList<Delegacion>();
+		listaRecibidos = new ArrayList<DelegacionObj>();
 		try {
 			// Create a JMS topic
 			myTopic = mySess.createTopic(equipoGestor); 
