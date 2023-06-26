@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build and launch server",
+            "label": "Build and Launch Server",
             "type": "shell",
             "command": "./debug_setup.sh", //lanza el programa en sí
             "options": {

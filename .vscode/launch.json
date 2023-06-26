@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Delegacion",
             "request": "launch",
-            "mainClass": "com.jmsproject.Delegaciones",
+            "mainClass": "com.jmsproject.Delegacion",
             "projectName": "distrito",
             "env": {
                 "IMQ_HOME": "${workspaceFolder}/lib/bin",
