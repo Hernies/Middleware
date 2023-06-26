@@ -4,9 +4,9 @@
         {
             "label": "Build and Launch Server",
             "type": "shell",
-            "command": "./debug_setup.sh", //lanza el programa en sí
+            "command": "mvn compile", //lanza el programa en sí
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/jmsproject",
             },
             "presentation": {
                 "echo": true,
@@ -27,9 +27,12 @@
         {
             "label": "Launch Server",
             "type": "shell",
-            "command": "screen -dmS imq sh -c imqbrokerd -tty; exec",
+            "command": "./imqbrokerd -tty",
             "options": {
-                "cwd": "${workspaceFolder}/lib/bin"
+                "cwd": "${workspaceFolder}/lib/bin",
+                "env": {
+                    "IMQ_HOME": "${workspaceFolder}/lib/bin",
+                }
             },
             "problemMatcher": []
         }

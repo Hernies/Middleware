@@ -9,7 +9,7 @@
             "name": "Delegacion",
             "request": "launch",
             "mainClass": "com.jmsproject.Delegaciones",
-            "projectName": "distrito",
+            "projectName": "jmsproject",
             "env": {
                 "IMQ_HOME": "${workspaceFolder}/lib/bin",
                 
@@ -30,11 +30,11 @@
             "name": "Inmueble",
             "request": "launch",
             "mainClass": "com.jmsproject.Inmueble",
-            "projectName": "distrito",
+            "projectName": "jmsproject",
             "env": {
                 "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
             },
-            "preLaunchTask": "Build"
+            "preLaunchTask": "Build and Launch Server"
         },
     ]
 }
