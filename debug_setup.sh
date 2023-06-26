@@ -6,5 +6,5 @@ if pgrep -x "imqbrokerd" >/dev/null; then
   cd jmsproject/ && mvn compile
 else
   echo "OpenMQ server is not running. Launching the server..."
-  screen -dmS imq sh -c "imqbrokerd -tty; exec"
+  screen -dmS imq sh -c "imqbrokerd -tty"
 fi
