@@ -2,11 +2,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build and Launch",
+            "label": "Build and launch server",
             "type": "shell",
-            "command": "mvn compile && screen -dmS imq sh -c imqbrokerd -tty; exec", //lanza el programa en sí
+            "command": "./debug_setup.sh", //lanza el programa en sí
             "options": {
-                "cwd": "${workspaceFolder}/jmsproject"
+                "cwd": "${workspaceFolder}"
             },
             "presentation": {
                 "echo": true,
@@ -25,11 +25,11 @@
             }
         },
         {
-            "label": "Launch OpenMQ Server",
+            "label": "Launch Server",
             "type": "shell",
-            "command": "imqbrokerd -tty",
+            "command": "screen -dmS imq sh -c imqbrokerd -tty; exec",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/lib/bin"
             },
             "problemMatcher": []
         }

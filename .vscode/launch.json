@@ -11,7 +11,7 @@
             "mainClass": "com.jmsproject.Delegaciones",
             "projectName": "distrito",
             "env": {
-                "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
+                "IMQ_HOME": "${workspaceFolder}/lib/bin",
                 
             },
             "sourcePaths": [
@@ -23,7 +23,7 @@
             "classPaths": [
                 "${workspaceFolder}/jmsproject/src/main/java/com/jmsproject"
             ],
-            "preLaunchTask": "Build and Launch"
+            "preLaunchTask": "Build and Launch Server"
         },
         {
             "type": "java",
@@ -34,7 +34,7 @@
             "env": {
                 "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
             },
-            "preLaunchTask": "Build and Launch"
+            "preLaunchTask": "Build"
         },
     ]
 }
