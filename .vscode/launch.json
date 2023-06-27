@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Delegacion",
+            "name": "Broker",
             "request": "launch",
-            "mainClass": "com.jmsproject.Delegaciones",
+            "mainClass": "com.jmsproject.Broker",
             "projectName": "jmsproject",
             "env": {
                 "IMQ_HOME": "${workspaceFolder}/lib/bin",
@@ -30,6 +30,17 @@
             "name": "Inmueble",
             "request": "launch",
             "mainClass": "com.jmsproject.Inmueble",
+            "projectName": "jmsproject",
+            "env": {
+                "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
+            },
+            "preLaunchTask": "Build and Launch Server"
+        },
+        {
+            "type": "java",
+            "name": "Equipos",
+            "request": "launch",
+            "mainClass": "com.jmsproject.EquipoGestor",
             "projectName": "jmsproject",
             "env": {
                 "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
