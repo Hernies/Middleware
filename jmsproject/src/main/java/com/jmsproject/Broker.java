@@ -18,29 +18,35 @@ public class Broker {
         this.mySess = mySess;
     }
     
-    public void crearDelegaciones(){
-        try{ 
-			// Crea equipos gestores
-            ArrayList<Thread> threads = new ArrayList<>();
-			for (String nombre : nombres) {
-				Thread thread = new Thread(( ) -> {
-                        new Delegacion(nombre, mySess, myConn);
-				});
-				threads.add(thread);
-				thread.start();
-			}
+    public void crearDelegaciones() {
+    try {
+        // Create teams of delegates
+        ArrayList<Thread> threads = new ArrayList<>();
 
-			// Wait for all threads to finish
-			for (Thread thread : threads) {
-				thread.join();
-			}
-
-			myConn.close();
-			mySess.close();
-        }catch(JMSException | InterruptedException e){
-            e.printStackTrace();
+        for (String nombre : nombres) {
+            Thread thread = new Thread(() -> {
+                Delegacion delegacion = new Delegacion(nombre, mySess, myConn);
+                delegacion.run();
+            });
+            threads.add(thread);
+            thread.start();
         }
+
+        // Wait for all threads to finish
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        // Keep the main thread alive to wait for messages
+        while (true) {
+            Thread.sleep(1000);
+        }
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
+}
+
+
    
     public static void main(String[] args) throws InterruptedException {
         ConnectionFactory myConnFactory;
@@ -57,4 +63,5 @@ public class Broker {
 			e.printStackTrace();
 		}
     }
+
 }
