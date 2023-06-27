@@ -1,13 +1,11 @@
 package com.jmsproject;
 
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -19,27 +17,27 @@ import javax.jms.Topic;
 
 public class Inmueble {
     private String fichero;
-	private String delegacion;
-	private Session sesion;
+    private String delegacion;
+    private Session sesion;
     private ArrayList<Oficina> oficinas = new ArrayList<Oficina>();
     public MessageProducer msgProducer;
-	public Topic myTopic;
+    public Topic myTopic;
 
-    public Inmueble(String fichero, Session sesion) throws JMSException, IOException{
+    public Inmueble(String fichero, Session sesion) throws JMSException, IOException {
         this.fichero = fichero;
-        if (fichero.startsWith("Centro")){
+        if (fichero.startsWith("Centro")) {
             this.delegacion = "Centro";
             myTopic = sesion.createTopic("Centro");
-        } else if (fichero.startsWith("Norte")){
+        } else if (fichero.startsWith("Norte")) {
             this.delegacion = "Norte";
             myTopic = sesion.createTopic("Norte");
-        } else if (fichero.startsWith("Sur")){
+        } else if (fichero.startsWith("Sur")) {
             this.delegacion = "Sur";
             myTopic = sesion.createTopic("Sur");
-        } else if (fichero.startsWith("Este")){
+        } else if (fichero.startsWith("Este")) {
             this.delegacion = "Este";
             myTopic = sesion.createTopic("Este");
-        } else if (fichero.startsWith("Oeste")){
+        } else if (fichero.startsWith("Oeste")) {
             this.delegacion = "Oeste";
             myTopic = sesion.createTopic("Oeste");
         }
@@ -54,77 +52,65 @@ public class Inmueble {
         ObjectMessage ofiMessage = sesion.createObjectMessage();
         ofiMessage.setObject(oficinas);
         ofiMessage.setStringProperty("Delegacion", delegacion);
+        String []idsel= this.fichero.split("_");
+        String id = idsel[idsel.length-1].charAt(0)+"";
+        ofiMessage.setIntProperty("IDOficina",Integer.parseInt(id));
         System.out.println("Enviando mensaje a " + delegacion);
         msgProducer.send(ofiMessage);
     }
 
-    // TODO MEJORAR PROCESAR
-    private void procesar() throws IOException { 
-        BufferedReader rdr = new BufferedReader (new FileReader ("../src/Ficheros_Practica_1/"+fichero));
-		String strCurrentLine;
-		while ((strCurrentLine = rdr.readLine()) != null) {
-            Oficina oficina;
-			String distrito = " ";
-			String precio = "";
-			String nHab=" ";
-			String nBan=" ";
-            String superficie=" ";
-			String [] parts = strCurrentLine.split(",");            
-            for(int i = 0; i< parts.length; i++){
-                System.out.println(parts[i]);
-            }
-            if(parts.length == 1){
-                distrito = parts[0];
-            }
-            if(parts.length == 2){
-                distrito = parts[0];
-                precio = parts[1];
-            }
-            if(parts.length == 3){
-                distrito = parts[0];
-                precio = parts[1];
-                nHab = parts[2];
-            }
-            if(parts.length == 4){
-                distrito = parts[0];
-                precio = parts[1];
-                nHab = parts[2];
-                nBan = parts[3];
-            }
-            if(parts.length == 5){
-                distrito = parts[0];
-                precio = parts[1];
-                nHab = parts[2];
-                nBan = parts[3];
-                superficie = parts[4];
+    private void procesar() throws IOException {
+        try {
+            File file = new File(Paths.get(System.getProperty("user.dir"), "jmsproject/src/main/Ficheros_Practica_1/").toString()+"/"+ fichero);
+            Scanner scanner = new Scanner(file);
+
+            // Saltamos la primera linea
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
             }
 
-			oficina = new Oficina(distrito, precio, nHab, nBan, superficie);
-            System.out.println("\n Ofi"+oficina.toString()+"\n");
-            oficinas.add(oficina);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] datos = line.split(";");
+
+                if (datos.length == 5) {
+                    String distrito = datos[0].trim();
+                    String precio = datos[1].trim();
+                    String nHab = datos[2].trim();
+                    String nBanos = datos[3].trim();
+                    String superficie = datos[4].trim();
+
+                    Oficina oficina = new Oficina(distrito, precio, nHab, nBanos, superficie);
+                    oficinas.add(oficina);
+
+                    System.out.println("Oficina: " + oficina.toString());
+                }
+            }
+
+            scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-		rdr.close();
     }
 
-    //main function
+    // main function
     public static void main(String[] args) throws JMSException {
-        try{
+        try {
             ConnectionFactory myConnFactory = new com.sun.messaging.ConnectionFactory();
             Connection myConn = myConnFactory.createConnection();
             Session mySesion = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
             // MessageProducer producer = mySesion.createProducer();
-            String relPath="src/main/Ficheros_Practica_1";
+            String relPath = "jmsproject/src/main/Ficheros_Practica_1";
             Path filePath = Paths.get(System.getProperty("user.dir"), relPath);
-            String[] path = new File(filePath.toString()).list(); 
-            for(String pathname : path){
-                 new Inmueble(pathname, mySesion);
-                 Thread.sleep(5000);
-            }    
+            String[] path = new File(filePath.toString()).list();
+            for (String pathname : path) {
+                new Inmueble(pathname, mySesion);
+            }
             mySesion.close();
             myConn.close();
-        } catch (Exception jsme){
+        } catch (Exception jsme) {
             jsme.printStackTrace();
         }
     }
-    
+
 }

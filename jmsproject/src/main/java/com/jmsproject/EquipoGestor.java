@@ -24,7 +24,7 @@ public class EquipoGestor {
 				try {
 					listaRecibidos = (ArrayList<DelegacionObj>) objMsg.getObject();
 					for (DelegacionObj del : listaRecibidos) {
-						System.out.println("\tLeyendo el mensaje\n\t" + del.toString());
+						System.out.println("\tLeyendo el mensaje\n\t" + del.toString());// print all objects received
 					}
 
 				} catch (Exception e) {
@@ -45,6 +45,11 @@ public class EquipoGestor {
 			EquipoGestor.DelegacionesListener myListener = new DelegacionesListener();
 			myConsumer.setMessageListener(myListener);
 			myConn.start();
+			// Wait for a message
+			System.out.println("Esperando mensaje de " + equipoGestor);
+			while (!myListener.recibido) {
+				
+			}
 		} catch (JMSException e) {
 			System.out.println("Error al inicializar JMS");
 			e.printStackTrace();

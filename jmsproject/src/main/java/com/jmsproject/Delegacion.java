@@ -33,7 +33,7 @@ public class Delegacion implements Runnable{
     // delegaciones
     // envio mensaje
 
-    // TODO (OPCIONAL) hacer comprobación de que el objeto recibido corresponde a la delegacion
+    // (OPCIONAL) hacer comprobación de que el objeto recibido corresponde a la delegacion
     // que debe
 
     class InmuebleListener implements MessageListener {
@@ -49,7 +49,7 @@ public class Delegacion implements Runnable{
                     System.out.println("Recibido mensaje de " + objMsg.getStringProperty("Delegacion"));
                     for(Oficina o: inmuebles) System.out.println(o.toString());
                     procesar(objMsg.getStringProperty("Delegacion"));
-                    System.out.println("Mensaje procesado" + objMsg.getIntProperty("IDOficina"));
+                    System.out.println("Mensaje procesado de Oficina: " + objMsg.getIntProperty("IDOficina"));
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
@@ -67,6 +67,10 @@ public class Delegacion implements Runnable{
                     else if(o.getnBan().equals(" ") )System.out.println("Error en los datos");
                     else if(o.getnHab().equals(" ")) System.out.println("Error en los datos");
                     else{
+                    System.out.println("precio "+o.getPrecio()+"\n");
+                    System.out.println("superficie "+o.getSuperficie()+"\n");
+                    System.out.println("nBan "+o.getnBan()+"\n");
+                    System.out.println("nHab "+o.getnHab()+"\n");
                     Integer precio = Integer.parseInt(o.getPrecio());
                     Integer nHab = Integer.parseInt(o.getnHab());
                     Integer nBan = Integer.parseInt(o.getnBan());
@@ -92,7 +96,6 @@ public class Delegacion implements Runnable{
                     }
                 }
                 } catch (NumberFormatException e) { 
-                    //TODO mejorar información por error de parseo
                     System.out.println("Datos no casteables, error en los:\n");
                     System.out.println(o.getDistrito() + " "+o.getPrecio() + " " + o.getnHab() + " " + o.getnBan() + " " + o.getSuperficie());
                     System.out.println();
@@ -105,7 +108,7 @@ public class Delegacion implements Runnable{
     }
 
     // Class constructor
-    public Delegacion(String delegacion, Session mySess, Connection myConn) throws JMSException, InterruptedException { 
+    public Delegacion(String delegacion, Session mySess, Connection myConn) { 
         this.delegacion = delegacion;
         this.session = mySess;
         this.connection = myConn;
@@ -133,7 +136,6 @@ public class Delegacion implements Runnable{
                     System.out.println("Enviando mensaje a negocio ...");
                     enviarMensaje(negocio, "Negocio");
                 }
-                Thread.sleep(100);
             }
             
             //enviar mensajes a equipos gestores
