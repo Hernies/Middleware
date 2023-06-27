@@ -14,15 +14,6 @@
                 "IMQ_HOME": "${workspaceFolder}/lib/bin",
                 
             },
-            "sourcePaths": [
-                "${workspaceFolder}/jmsproject/src/main/java/com/jmsproject"
-            ],
-            "modulePaths": [
-                "${workspaceFolder}/jmsproject/src/main/java/com/jmsproject"
-            ],
-            "classPaths": [
-                "${workspaceFolder}/jmsproject/src/main/java/com/jmsproject"
-            ],
             "preLaunchTask": "Build and Launch Server"
         },
         {
@@ -32,7 +23,7 @@
             "mainClass": "com.jmsproject.Inmueble",
             "projectName": "jmsproject",
             "env": {
-                "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
+                "IMQ_HOME": "${workspaceFolder}/JMS/lib/bin",
             },
             "preLaunchTask": "Build and Launch Server"
         },
@@ -43,7 +34,7 @@
             "mainClass": "com.jmsproject.EquipoGestor",
             "projectName": "jmsproject",
             "env": {
-                "IMQ_HOME": "/home/hernie/Documents/Middleware/JMS/lib/bin",
+                "IMQ_HOME": "${workspaceFolder}/JMS/lib/bin",
             },
             "preLaunchTask": "Build and Launch Server"
         },
